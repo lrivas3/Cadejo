@@ -5,7 +5,7 @@ from cryptography.hazmat.primitives import serialization
 private_key = ed25519.Ed25519PrivateKey.generate()
 
 # Write the private key to a PEM file
-with open('./keys/private_key.pem', 'wb') as f:
+with open('./generated_keys/private_key.pem', 'wb') as f:
     f.write(private_key.private_bytes(
         encoding=serialization.Encoding.PEM,
         format=serialization.PrivateFormat.PKCS8,
@@ -14,7 +14,7 @@ with open('./keys/private_key.pem', 'wb') as f:
 
 # Write the public key to a PEM file
 public_key = private_key.public_key()
-with open('./keys/public_key.pem', 'wb') as f:
+with open('./generated_keys/public_key.pem', 'wb') as f:
     f.write(public_key.public_bytes(
         encoding=serialization.Encoding.PEM,
         format=serialization.PublicFormat.SubjectPublicKeyInfo
