@@ -1,17 +1,19 @@
 from Crypto.PublicKey import ECC
+import subprocess
 import os
 
-public_key = "publi_key.pem"
+public_key = "./generated_keys/public_key.pem"
 
 files = []
 
-for file in os.listdir():
-     if file == "encrypt_files.py" or file == "decrypt_files.py" or file == "README.md":
-         continue
-     if os.path.isfile(file):
-        files.append(file)
+to_encript_folder = "Archivos_a_encriptar"
 
-def encrypt_file(file_path, public_key_path, output_file_path):
+for file in os.listdir(to_encript_folder):
+     file_path = os.path.join(to_encript_folder, file)
+     if os.path.isfile(file_path):
+        files.append(file_path)
+
+def encrypt_file(file_path, public_key_path):
     # Generate an ECC public key from a PEM file
     with open(public_key_path, 'rb') as f:
         ecc_key = ECC.import_key(f.read())
@@ -24,7 +26,17 @@ def encrypt_file(file_path, public_key_path, output_file_path):
     ciphertext = ecc_key.encrypt(plaintext)
 
     # Write the encrypted file to the output file
-    with open(output_file_path, 'wb') as f:
+    with open(file_path, 'wb') as f:
         f.write(ciphertext)
+
+# Run the script that generates the keys
+subprocess.call(['python', 'keygen.py'])
+
+
+# Encrypting the files
+
+# for f in files:
+#    encrypt_file(f, public_key)
+
 
 print(files)
